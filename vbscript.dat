@@ -1,0 +1,48 @@
+
+Function FetchDataFromWebService(URL As String, CSSClassName As String)
+    'Application.Volatile
+
+    Dim RequestBody As String
+    Dim XMLHTTP As Object
+
+    ' Create the JSON request body
+    RequestBody = "{""url"": """ & URL & """, ""cssSelectors"":{ ""any"":""" & CSSClassName & """}}"
+
+    ' Create an instance of MSXML2.ServerXMLHTTP
+    Set XMLHTTP = CreateObject("MSXML2.ServerXMLHTTP")
+
+    ' Open a POST request to the web service
+    XMLHTTP.Open "POST", "http://localhost:3000/scrape", False
+
+    ' Set the request headers
+    XMLHTTP.setRequestHeader "Content-Type", "application/json"
+
+    ' Send the request with the JSON request body
+    XMLHTTP.send RequestBody
+
+    ' Check if the request was successful (status code 200)
+    If XMLHTTP.Status = 200 Then
+        FetchDataFromWebService = XMLHTTP.responseText
+    Else
+        ' Handle the case when the request is not successful
+        FetchDataFromWebService = "Request failed with status code: " & XMLHTTP.Status
+    End If
+
+    ' Clean up the XMLHTTP object
+    Set XMLHTTP = Nothing
+End Function
+
+Function regexf(json As String) As Double
+Set objRegExp = New RegExp
+objRegExp.Pattern = "(\d[\d+,]*[.\d]*)"
+Set colMatches = objRegExp.Execute(json)
+If colMatches.Count > 0 Then
+regexf = colMatches(0).Value
+    ' matched text: a.Value
+    ' backreference n text: a.Groups(n).Value
+Else
+    ' Match attempt failed
+End If
+End Function
+
+

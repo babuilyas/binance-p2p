@@ -1,0 +1,26 @@
+### USDT/PKR Buy
+post http://localhost:3000/scrape/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "url":"https://p2p.binance.com/en/trade/all-payments/USDT?fiat=PKR",
+    "cssSelectors": { "any" : ".css-onyc9z" }
+}
+
+### USDT/PKR Sell
+post http://localhost:3000/scrape/ HTTP/1.1
+Content-Type: application/json
+
+{ 
+    "url":"https://p2p.binance.com/en/trade/all-payments/BTC?fiat=PKR",
+    "cssSelectors": {"Trader": "a[data-bn-type=text]", "Price": ".css-onyc9z", "Limit": ".css-aq7mev", "Orders":".css-s3l2jm","PaymentOptions":".PaymentMethodList__list"} 
+}
+
+### USD/PKR open market
+post http://localhost:3000/scrape/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "url":"https://www.forex.pk/currency-usd-to-pkr-to-us-dollar.php",
+    "cssSelectors": { "USD forex.pk": "#RATESPAN.heading_sub" }
+}
